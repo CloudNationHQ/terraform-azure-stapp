@@ -17,6 +17,15 @@ module "rg" {
   }
 }
 
+resource "random_password" "password" {
+  length      = 24
+  special     = true
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
+  min_special = 1
+}
+
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
   version = "~> 2.0"
@@ -29,19 +38,9 @@ module "stapp" {
     sku_tier = "Standard"
     sku_size = "Standard"
 
-    custom_domains = {
-      www = {
-        domain_name     = "www-cd1.example.com"
-        validation_type = "dns-txt-token"
-      }
-      api = {
-        domain_name     = "api-cd1.example.com"
-        validation_type = "dns-txt-token"
-      }
-      app = {
-        domain_name     = "app-cd1.example.com"
-        validation_type = "dns-txt-token"
-      }
+    basic_auth = {
+      environments = "StagingEnvironments"
+      password     = random_password.password.result
     }
   }
 }

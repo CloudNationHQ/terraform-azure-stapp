@@ -25,27 +25,27 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_static_web_app.stapp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app) (resource)
-- [azurerm_static_web_app_custom_domain.domains](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app_custom_domain) (resource)
-- [azurerm_static_web_app_function_app_registration.function_app](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app_function_app_registration) (resource)
+- [azurerm_static_web_app.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app) (resource)
+- [azurerm_static_web_app_custom_domain.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app_custom_domain) (resource)
+- [azurerm_static_web_app_function_app_registration.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/static_web_app_function_app_registration) (resource)
 
 ## Required Inputs
 
 The following input variables are required:
 
-### <a name="input_instance"></a> [instance](#input\_instance)
+### <a name="input_app"></a> [app](#input\_app)
 
 Description: Contains all static web app configuration
 
@@ -56,12 +56,12 @@ object({
     name                               = string
     resource_group_name                = optional(string)
     location                           = optional(string)
-    sku_tier                           = optional(string, "Standard")
-    sku_size                           = optional(string, "Standard")
+    sku_tier                           = optional(string)
+    sku_size                           = optional(string)
     app_settings                       = optional(map(string))
-    configuration_file_changes_enabled = optional(bool, true)
-    preview_environments_enabled       = optional(bool, true)
-    public_network_access_enabled      = optional(bool, true)
+    configuration_file_changes_enabled = optional(bool)
+    preview_environments_enabled       = optional(bool)
+    public_network_access_enabled      = optional(bool)
     tags                               = optional(map(string))
     repository_url                     = optional(string)
     repository_token                   = optional(string)
@@ -116,6 +116,10 @@ Default: `{}`
 
 The following outputs are exported:
 
+### <a name="output_app"></a> [app](#output\_app)
+
+Description: contains all static web app configuration
+
 ### <a name="output_custom_domains"></a> [custom\_domains](#output\_custom\_domains)
 
 Description: contains custom domain configurations
@@ -123,10 +127,6 @@ Description: contains custom domain configurations
 ### <a name="output_function_app_registration"></a> [function\_app\_registration](#output\_function\_app\_registration)
 
 Description: contains function app registration configuration
-
-### <a name="output_instance"></a> [instance](#output\_instance)
-
-Description: contains all static web app configuration
 <!-- END_TF_DOCS -->
 
 ## Goals
@@ -149,11 +149,7 @@ To update the module's documentation run `make doc`
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
-For more information, please see our contribution [guidelines](./CONTRIBUTING.md). <br><br>
-
-<a href="https://github.com/cloudnationhq/terraform-azure-stapp/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cloudnationhq/terraform-azure-stapp" />
-</a>
+For more information, please see our contribution [guidelines](./CONTRIBUTING.md).
 
 ## License
 

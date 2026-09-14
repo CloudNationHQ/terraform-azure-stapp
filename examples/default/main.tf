@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,11 +19,14 @@ module "rg" {
 
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
-  instance = {
+  app = {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+
+    sku_tier = "Standard"
+    sku_size = "Standard"
   }
 }

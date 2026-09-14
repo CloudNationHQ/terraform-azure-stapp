@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,7 +19,7 @@ module "rg" {
 
 module "storage" {
   source  = "cloudnationhq/sa/azure"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   storage = {
     name                = module.naming.storage_account.name_unique
@@ -30,7 +30,7 @@ module "storage" {
 
 module "service_plan" {
   source  = "cloudnationhq/plan/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   plans = {
     plan1 = {
@@ -45,12 +45,12 @@ module "service_plan" {
 
 module "function_app" {
   source  = "cloudnationhq/func/azure"
-  version = "~> 2.0"
+  version = "~> 4.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
 
-  instance = {
+  function_app = {
     type                       = "windows"
     name                       = "func-demo-dev-fa1"
     location                   = module.rg.groups.demo.location
@@ -77,15 +77,18 @@ module "function_app" {
 
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
-  instance = {
+  app = {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     function_app_registration = {
-      function_app_id = module.function_app.instance.id
+      function_app_id = module.function_app.function_app.id
     }
   }
 }

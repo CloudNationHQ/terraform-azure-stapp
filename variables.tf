@@ -1,15 +1,15 @@
-variable "instance" {
+variable "app" {
   description = "Contains all static web app configuration"
   type = object({
     name                               = string
     resource_group_name                = optional(string)
     location                           = optional(string)
-    sku_tier                           = optional(string, "Standard")
-    sku_size                           = optional(string, "Standard")
+    sku_tier                           = optional(string)
+    sku_size                           = optional(string)
     app_settings                       = optional(map(string))
-    configuration_file_changes_enabled = optional(bool, true)
-    preview_environments_enabled       = optional(bool, true)
-    public_network_access_enabled      = optional(bool, true)
+    configuration_file_changes_enabled = optional(bool)
+    preview_environments_enabled       = optional(bool)
+    public_network_access_enabled      = optional(bool)
     tags                               = optional(map(string))
     repository_url                     = optional(string)
     repository_token                   = optional(string)
@@ -32,8 +32,13 @@ variable "instance" {
   })
 
   validation {
-    condition     = var.instance.repository_url == null || (var.instance.repository_token != null && var.instance.repository_branch != null)
-    error_message = "When repository_url is set, both repository_token and repository_branch must be provided."
+    condition     = lookup(var.app, "location", null) != null || var.location != null
+    error_message = "location must be set on var.app.location or on the module-level var.location."
+  }
+
+  validation {
+    condition     = lookup(var.app, "resource_group_name", null) != null || var.resource_group_name != null
+    error_message = "resource_group_name must be set on var.app.resource_group_name or on the module-level var.resource_group_name."
   }
 }
 

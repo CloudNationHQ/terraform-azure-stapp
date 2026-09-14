@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,7 +19,7 @@ module "rg" {
 
 module "analytics" {
   source  = "cloudnationhq/law/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   workspace = {
     name                = module.naming.log_analytics_workspace.name
@@ -30,9 +30,9 @@ module "analytics" {
 
 module "appi" {
   source  = "cloudnationhq/appi/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
-  config = {
+  insights = {
     name                = module.naming.application_insights.name
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
@@ -43,20 +43,23 @@ module "appi" {
 
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
-  instance = {
+  app = {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     tags = {
-      "hidden-link:${module.appi.config.id}" = "Resource"
+      "hidden-link:${module.appi.insights.id}" = "Resource"
     }
 
     app_settings = {
-      "APPINSIGHTS_INSTRUMENTATIONKEY"        = module.appi.config.instrumentation_key
-      "APPLICATIONINSIGHTS_CONNECTION_STRING" = module.appi.config.connection_string
+      "APPINSIGHTS_INSTRUMENTATIONKEY"        = module.appi.insights.instrumentation_key
+      "APPLICATIONINSIGHTS_CONNECTION_STRING" = module.appi.insights.connection_string
     }
   }
 }
