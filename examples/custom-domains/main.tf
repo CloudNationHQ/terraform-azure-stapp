@@ -26,6 +26,9 @@ module "stapp" {
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     custom_domains = {
       www = {
         domain_name     = "www-cd1.example.com"

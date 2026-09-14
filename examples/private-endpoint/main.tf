@@ -64,6 +64,9 @@ module "stapp" {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+
+    sku_tier = "Standard"
+    sku_size = "Standard"
   }
 }
 

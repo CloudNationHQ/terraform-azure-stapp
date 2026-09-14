@@ -84,6 +84,9 @@ module "stapp" {
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     function_app_registration = {
       function_app_id = module.function_app.function_app.id
     }

@@ -35,6 +35,9 @@ module "stapp" {
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     basic_auth = {
       environments = "StagingEnvironments"
       password     = random_password.password.result

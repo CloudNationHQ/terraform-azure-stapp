@@ -56,8 +56,8 @@ object({
     name                               = string
     resource_group_name                = optional(string)
     location                           = optional(string)
-    sku_tier                           = optional(string, "Standard")
-    sku_size                           = optional(string, "Standard")
+    sku_tier                           = optional(string)
+    sku_size                           = optional(string)
     app_settings                       = optional(map(string))
     configuration_file_changes_enabled = optional(bool)
     preview_environments_enabled       = optional(bool)

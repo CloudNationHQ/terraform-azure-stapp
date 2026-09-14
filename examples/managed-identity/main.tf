@@ -37,6 +37,9 @@ module "stapp" {
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
 
+    sku_tier = "Standard"
+    sku_size = "Standard"
+
     identity = {
       type         = "UserAssigned"
       identity_ids = [module.identity.identity.id]
