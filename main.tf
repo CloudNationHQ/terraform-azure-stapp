@@ -1,21 +1,28 @@
 # static web app
 resource "azurerm_static_web_app" "this" {
-  name                = var.app.name
-  resource_group_name = coalesce(var.app.resource_group_name, var.resource_group_name)
-  location            = coalesce(var.app.location, var.location)
-  tags                = coalesce(var.app.tags, var.tags)
+  resource_group_name = coalesce(
+    var.app.resource_group_name, var.resource_group_name
+  )
 
+  location = coalesce(
+    var.app.location, var.location
+  )
+
+
+  name                               = var.app.name
   sku_tier                           = var.app.sku_tier
   sku_size                           = var.app.sku_size
   configuration_file_changes_enabled = var.app.configuration_file_changes_enabled
   preview_environments_enabled       = var.app.preview_environments_enabled
   public_network_access_enabled      = var.app.public_network_access_enabled
+  app_settings                       = var.app.app_settings
+  repository_url                     = var.app.repository_url
+  repository_token                   = var.app.repository_token
+  repository_branch                  = var.app.repository_branch
 
-  app_settings = var.app.app_settings
-
-  repository_url    = var.app.repository_url
-  repository_token  = var.app.repository_token
-  repository_branch = var.app.repository_branch
+  tags = coalesce(
+    var.app.tags, var.tags
+  )
 
   dynamic "identity" {
     for_each = var.app.identity != null ? { "this" = var.app.identity } : {}
@@ -43,7 +50,9 @@ resource "azurerm_static_web_app_custom_domain" "this" {
   static_web_app_id = azurerm_static_web_app.this.id
   validation_type   = each.value.validation_type
 
-  domain_name = coalesce(each.value.domain_name, each.key)
+  domain_name = coalesce(
+    each.value.domain_name, each.key
+  )
 }
 
 # function app registration
