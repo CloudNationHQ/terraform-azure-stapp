@@ -17,6 +17,17 @@ module "rg" {
   }
 }
 
+module "identity" {
+  source  = "cloudnationhq/uai/azure"
+  version = "~> 3.0"
+
+  identity = {
+    name                = module.naming.user_assigned_identity.name
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+  }
+}
+
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
   version = "~> 2.0"
@@ -25,5 +36,10 @@ module "stapp" {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+
+    identity = {
+      type         = "UserAssigned"
+      identity_ids = [module.identity.identity.id]
+    }
   }
 }

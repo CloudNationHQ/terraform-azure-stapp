@@ -17,6 +17,15 @@ module "rg" {
   }
 }
 
+resource "random_password" "password" {
+  length      = 24
+  special     = true
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
+  min_special = 1
+}
+
 module "stapp" {
   source  = "cloudnationhq/stapp/azure"
   version = "~> 2.0"
@@ -25,5 +34,10 @@ module "stapp" {
     name                = module.naming.static_web_app.name_unique
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
+
+    basic_auth = {
+      environments = "StagingEnvironments"
+      password     = random_password.password.result
+    }
   }
 }
