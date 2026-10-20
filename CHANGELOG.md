@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-stapp/compare/v2.0.0...v2.1.0) (2026-10-20)
+
+
+### Features
+
+* **deps:** bump github.com/klauspost/compress in /tests ([#13](https://github.com/CloudNationHQ/terraform-azure-stapp/issues/13)) ([8f3b2f0](https://github.com/CloudNationHQ/terraform-azure-stapp/commit/8f3b2f0dca78dcd1cabd3f6f821ad96361c339ef))
+
 ## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-stapp/compare/v1.0.0...v2.0.0) (2026-09-14)
 
 
